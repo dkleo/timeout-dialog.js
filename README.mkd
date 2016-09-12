@@ -6,11 +6,10 @@ Timeout-dialog.js is a JQuery plugin that displays a timeout popover after a cer
 Example and Documentation
 -------------------------
 
-[timeout-dialog.js examples](http://rigoneri.github.com/timeout-dialog.js)
-
+(removed, because not helpful).
 
 Credit
 ------
 
-timeout-dialog.js was developed by [@rigoneri]
+timeout-dialog.js was (originally) developed by [@rigoneri], but it did not work out of the gate so contact [@dkleo] if you have any questions regarding this code.
 
