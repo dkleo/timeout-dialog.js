@@ -6,10 +6,11 @@ Timeout-dialog.js is a JQuery plugin that displays a timeout popover after a cer
 Example and Documentation
 -------------------------
 
-(removed, because not helpful).
+make the following code snippet available to the application globally (append to a javascript file, which is included on every page tied to a session.)
 
-Credit
-------
-
-timeout-dialog.js was (originally) developed by [@rigoneri], but it did not work out of the gate so contact [@dkleo] if you have any questions regarding this code.
-
+```javascript
+var matches = window.location.href.match(/\/index\.cfm|pandtdept\/$|pandtdept\/\?[0-9a-zA-Z=&\-]*/g);
+    if (!matches) {
+        $.timeoutDialog();
+    }
+```

@@ -83,7 +83,7 @@ String.prototype.format = function() {
           '</div>')
         .appendTo('body')
         .dialog({
-          modal: true,
+          modal: false,
           width: settings.dialog_width,
           minHeight: 'auto',
           zIndex: 10000,
@@ -115,7 +115,7 @@ String.prototype.format = function() {
 
       destroyDialog: function() {
         if ($("#timeout-dialog").length) {
-          $(this).dialog("close");
+          $("#timeout-dialog").dialog("close");
           $('#timeout-dialog').remove();
         }
       },
