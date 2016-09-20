@@ -45,15 +45,15 @@ String.prototype.format = function() {
   $.timeoutDialog = function(options) {
 
     var settings = {
-      timeout: 3600,
-      countdown: 60,
+      timeout: 12,
+      countdown: 6,
       title : 'Your session is about to expire!',
       message : 'You will be logged out in {0} seconds.',
       question: 'Do you want to stay signed in?',
       keep_alive_button_text: 'Yes, Keep me signed in',
-      keep_alive_url : window.location.href,
+      keep_alive_url : 'test.cfm',
       sign_out_button_text: 'No, Sign me out',
-      logout_url: null,
+      logout_url: "act_logout.cfm",
       logout_redirect_url: 'index.cfm',
       restart_on_yes: true,
       dialog_width: 350
@@ -70,7 +70,7 @@ String.prototype.format = function() {
         var self = this;
         window.setTimeout(function() {
            self.setupDialog();
-        }, (settings.timeout - settings.countdown) * 1000);
+          }, (settings.timeout - settings.countdown) * 1000);
       },
 
       setupDialog: function() {
@@ -142,9 +142,9 @@ String.prototype.format = function() {
         window.clearInterval(this.countdown);
 
         $.get(settings.keep_alive_url, function(data) {
-          if (data == "OK") {
+          if ($.trim(data) === "OK") {
             if (settings.restart_on_yes) {
-              self.setupDialogTimer();
+                self.setupDialogTimer();
             }
           }
           else {
@@ -169,7 +169,7 @@ String.prototype.format = function() {
 
       redirectLogout: function(is_forced){
         var target = settings.logout_redirect_url + '?next=' + encodeURIComponent(window.location.pathname + window.location.search);
-        if (!is_forced)
+        if (is_forced)
           target += '&timeout=t';
         window.location = target;
       }
