@@ -24,7 +24,7 @@ var matches = window.location.href.match(/\/index\.cfm|pandtdept\/$|pandtdept\/\
 
 Example:  
 -------------------------
-**Coming Soono
+**Coming Soon
 
 <h2>Examples</h2>
   <div>
