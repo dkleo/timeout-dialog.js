@@ -13,7 +13,7 @@
 <div class="container">
   <h1>Timeout-Dialog.js</h1>
   <p><strong>Timeout-dialog.js</strong> is a JQuery plugin that displays a timeout popover after a certain period of time. The timeout dialog should be used whenever you want to display to the user that the logged in session is about to expire. It creates a light box with a countdown and options to stay signed in or sign out.</p>
-  <p>You can download the timeout-dialog.js project from <a href="http://github.com/rigoneri/timeout-dialog.js">GitHub</a>.</p>
+  <p>You can download the timeout-dialog.js project from <a href="http://github.com/dkleo/timeout-dialog.js">GitHub</a>.</p>
   <h2>Examples</h2>
   <div>
     <a href="#" id="timeout-example">Click Here to See Demo</a>
@@ -105,20 +105,15 @@
       </tr>
     </tbody>
   </table>
-  <h2>Credit</h2>
-  <p>Written by <a href="http://twitter.com/rigoneri">@rigoneri</a></p>
 <script type="text/javascript">
 /*<![CDATA[*/
 $(function () {
  $("#timeout-example").click(function(e) {
    e.preventDefault();
-   $.timeoutDialog({timeout: 1, countdown: 60, logout_redirect_url: 'https://github.com/rigoneri/timeout-dialog.js', restart_on_yes: false});
+   $.timeoutDialog({timeout: 1, countdown: 60, logout_redirect_url: 'https://github.com/dkleo/timeout-dialog.js', restart_on_yes: false});
  });
 });
-/*]]>*/
-</script>
-<!--
-<script type="text/javascript">
+
 var sessionTimeout = 1000*60*20; //19 minutes
 function resetTimer() {
    $.ajax({
@@ -145,7 +140,10 @@ if(!matches) {
   window.timeout = setTimeout('autologout()',sessionTimeout);
 }
 
+
+
+/*]]>*/
 </script>
--->
+
 </body>
 </html>
