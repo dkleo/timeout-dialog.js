@@ -117,5 +117,35 @@ $(function () {
 });
 /*]]>*/
 </script>
+<!--
+<script type="text/javascript">
+var sessionTimeout = 1000*60*20; //19 minutes
+function resetTimer() {
+   $.ajax({
+      url: "keep-alive.cfm",
+      context: document.body,
+      success: function(){
+        clearTimeout(window.timeout);
+        window.timeout = setTimeout('autologout()',sessionTimeout);
+      }
+  });
+}
+
+function autologout() {
+
+  alert("For security, your session was expired after 20 minutes of inactivity.  Press OK to login again.");
+    location.href = "#event.buildLink(to='main/logout',translate=false,queryString='error=3')#";
+}
+
+
+var matches = window.location.href.match(/\/main\/login|\/main\/index|\/main\.index/g);
+if(!matches) {
+  document.addEventListener("mousemove", resetTimer);
+  document.addEventListener("keypress", resetTimer);
+  window.timeout = setTimeout('autologout()',sessionTimeout);
+}
+
+</script>
+-->
 </body>
 </html>
