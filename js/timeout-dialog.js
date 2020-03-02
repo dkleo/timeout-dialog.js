@@ -168,7 +168,7 @@ String.prototype.format = function() {
       },
 
       redirectLogout: function(is_forced){
-        var target = settings.logout_redirect_url + '?next=' + encodeURIComponent(window.location.pathname + window.location.search);
+        var target = settings.logout_redirect_url ;
         if (is_forced)
           target += '&timeout=t';
         window.location = target;
