@@ -1,3 +1,17 @@
+
+/*
+ * timeout-dialog.js v1.1.1, 04-30-2021
+ *
+ * @author: Derek Lords (@dkleo)
+ * 
+ * 1.  added settings.overlay_name and settings.dialog_class, title hidden by default.
+ * 
+ 
+ */
+
+
+
+
 /*
  * timeout-dialog.js v1.0.1, 01-03-2012
  *
@@ -25,21 +39,8 @@
  */
 
 
-/* String formatting, you might want to remove this if you already use it.
- * Example:
- *
- * var location = 'World';
- * alert('Hello {0}'.format(location));
- */
-String.prototype.format = function() {
-  var s = this,
-      i = arguments.length;
 
-  while (i--) {
-    s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i]);
-  }
-  return s;
-};
+
 
 !function($) {
   $.timeoutDialog = function(options) {
@@ -56,7 +57,9 @@ String.prototype.format = function() {
       logout_url: "act_logout.cfm",
       logout_redirect_url: 'index.cfm',
       restart_on_yes: true,
-      dialog_width: 350
+      dialog_width: 350,
+      overlay_name:'overlay',
+      dialog_class:'timeout-dialog'
     }
 
     $.extend(settings, options);
@@ -78,19 +81,24 @@ String.prototype.format = function() {
         self.destroyDialog();
 
         $('<div id="timeout-dialog">' +
-            '<p id="timeout-message">' + settings.message.format('<span id="timeout-countdown">' + settings.countdown + '</span>') + '</p>' +
+            '<p id="timeout-message" class="bs-callout bs-callout-info">' + settings.message.format('<span id="timeout-countdown">' + settings.countdown + '</span>') + '</p>' +
             '<p id="timeout-question">' + settings.question + '</p>' +
           '</div>')
-        .appendTo('body')
         .dialog({
+          options: {
+              headerVisible: false
+          },          
           modal: false,
           width: settings.dialog_width,
           minHeight: 'auto',
+          position : {
+              my : 'center top', at : 'center bottom', of : $('#header')
+          },                    
           zIndex: 10000,
           closeOnEscape: false,
           draggable: false,
           resizable: false,
-          dialogClass: 'timeout-dialog',
+          dialogClass: settings.dialog_class,
           title: settings.title,
           buttons : {
             'keep-alive-button' : {
@@ -144,6 +152,7 @@ String.prototype.format = function() {
         $.get(settings.keep_alive_url, function(data) {
           if ($.trim(data) === "OK") {
             if (settings.restart_on_yes) {
+                $("#{0}".format(settings.overlay_name)).hide();
                 self.setupDialogTimer();
             }
           }
