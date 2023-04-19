@@ -20,7 +20,29 @@ var matches = window.location.href.match(/\/index\.cfm|pandtdept\/$|pandtdept\/\
         $.timeoutDialog();
     }
 ```
+or, in a coldbox Main.cfm layout inside <script/> tags, append
+```javascript
 
+        if ("#rc.event#" !== "main.login") {
+          console.log("starting timeout dialog for #rc.event# at {0}".format(new Date().toLocaleTimeString()));
+          obj = $.timeoutDialog({
+            dialog_width: 600
+            /*,timeout: 1200
+            ,countdown: 60*/
+            ,keep_alive_url : "#event.buildLink('main/keepalive')#"
+            ,logout_url: "#event.buildLink('main/logout')#"
+            ,logout_redirect_url: "#event.buildLink('main/login')#"
+            ,login_service:"#event.buildLink('main/login')#"
+            ,idle_redirect: false
+            ,ui_monitor:false
+          });
+        } else {
+          console.log('kill bouncy scrollbars on login screen, not starting timeout dialog for #rc.event#')  
+          document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+          document.body.scroll = "no"; // ie only
+        }
+
+```
 
 Example:  
 -------------------------
