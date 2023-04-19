@@ -170,12 +170,10 @@
         this.destroyDialog();
 
         if (settings.logout_url != null) {
-
-            $.post(settings.logout_url, function(data){
+            
+            $.post(settings.logout_url, {timeout : "t"}, function(data){
                 self.redirectLogout(is_forced);
             });
-
-
         }
         else {
             self.redirectLogout(is_forced);
@@ -185,7 +183,7 @@
       redirectLogout: function(is_forced){
         var target = settings.logout_redirect_url ;
         if (is_forced) {
-          //target += '&timeout=t';
+          target += '?error=7';
           window.location = target;
         } else {
           $("#timeout-message").show();
