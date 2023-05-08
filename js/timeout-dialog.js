@@ -1,20 +1,8 @@
 
 /*
- * timeout-dialog.js v1.1.1, 04-30-2021
+ * timeout-dialog.js v0.0.9
  *
  * @author: Derek Lords (@dkleo)
- * 
- * 1.  added settings.overlay_name and settings.dialog_class, title hidden by default.
- * 2.  added settings.idle_redirect, if true, will redirect to logout_url on timeout (after no response from countdown).
- 
- */
-
-
-
-
-/*
- * timeout-dialog.js v1.0.1, 01-03-2012
- *
  * @author: Rodrigo Neri (@rigoneri)
  *
  * (The MIT License)
@@ -55,6 +43,7 @@
       keep_alive_url : 'test.cfm',
       sign_out_button_text: 'No, Sign me out',
       idle_redirect: true,
+      idle_redirect_opt: 1,
       logout_url: "act_logout.cfm",
       logout_redirect_url: 'index.cfm',
       login_service:'act_login.cfm',
@@ -186,18 +175,8 @@
           target += '?error=7';
           window.location = target;
         } else {
-          $("#timeout-message").show();
-          $("#timeout-message").html(
-            'You have been logged out. Please login to continue.'
-          ).addClass(
-            'bs-callout bs-callout-danger'
-          ).append(
-            '<p><a href="javascript:void(0)" id="quickLogin">Click here to login</a></p>'
-          );
 
-          $("#quickLogin").click(function(){          
-
-            $('<div id="timeout-login-dialog">' +
+          $('<div id="timeout-login-dialog">' +
                 '<p id="timeout-message" class="bs-callout bs-callout-info">Please enter your username and password to login.</p>' +
                 '<div class="formwrap">' +
                 '<form id="quickLogin"><fieldset>' + 
@@ -225,7 +204,7 @@
             .dialog({
               options: {
                   headerVisible: true
-              },          
+              },              
               modal: true,
               width: 'auto',
               minHeight: 'auto',
@@ -244,6 +223,7 @@
                   id: "ql-cancel-btn",
                   click: function() {
                     $(this).dialog('close');
+                    window.location = target;
                   }
                 },
                 {
@@ -282,10 +262,15 @@
 
                    }
                   }                
-              ]
-            });            
-          });
-          
+              ],
+              open: function(event, ui) {
+                $('.ui-widget-overlay').css({ opacity: '.98' });
+              },
+              close: function(event, ui) {
+                $(this).dialog('destroy').remove();
+              }
+
+            }); 
         }
       }
     };
