@@ -3,11 +3,28 @@
  * timeout-dialog.js v0.0.9
  *
  * @author: Derek Lords (@dkleo)
- * 
- * 1.  added settings.overlay_name and settings.dialog_class, title hidden by default.
- * 2.  added settings.idle_redirect, if true, will redirect to logout_url on timeout (after no response from countdown).
-  */
-
+ * @author: Rodrigo Neri (@rigoneri)
+ *
+ * (The MIT License)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 
 
@@ -20,7 +37,6 @@
       timeout: 12,
       countdown: 6,
       title : 'Your session is about to expire!',
-      endTitle: 'Your session has expired!',
       message : 'You will be logged out in {0} seconds.',
       question: 'Do you want to stay signed in?',
       keep_alive_button_text: 'Yes, Keep me signed in',
@@ -160,7 +176,7 @@
           window.location = target;
         } else {
 
-            $('<div id="timeout-login-dialog">' +
+          $('<div id="timeout-login-dialog">' +
                 '<p id="timeout-message" class="bs-callout bs-callout-info">Please enter your username and password to login.</p>' +
                 '<div class="formwrap">' +
                 '<form id="quickLogin"><fieldset>' + 
@@ -188,7 +204,7 @@
             .dialog({
               options: {
                   headerVisible: true
-              },          
+              },              
               modal: true,
               width: 'auto',
               minHeight: 'auto',
@@ -249,7 +265,6 @@
               ],
               open: function(event, ui) {
                 $('.ui-widget-overlay').css({ opacity: '.98' });
-                $(this).dialog('option', 'title', settings.endTitle);
               },
               close: function(event, ui) {
                 $(this).dialog('destroy').remove();
