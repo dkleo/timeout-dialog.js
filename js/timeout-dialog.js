@@ -180,7 +180,7 @@
                             '</span>' +
                           'Password:' +
                         '</label>' +
-                      '<input type="password" name="password" id="password" size="50" class="required" required/>' +                        
+                      '<input type="password" autocomplete="off" name="password" id="password" size="50" class="required" required/>' +                        
                     '</div>' +                 
                 '</fieldset></form>' +
                 '</div>' +
