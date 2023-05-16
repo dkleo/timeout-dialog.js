@@ -250,12 +250,12 @@
               open: function(event, ui) {
                 $('.ui-widget-overlay').css({ opacity: '.98' });
                 $(this).dialog('option', 'title', settings.endTitle);
+                $("#password").val('');
                 $("#password").removeAttribute('readonly');
               },
               close: function(event, ui) {
                 $(this).dialog('destroy').remove();
               }
-
             }); 
         }
       }
