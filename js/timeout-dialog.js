@@ -17,8 +17,8 @@
   $.timeoutDialog = function(options) {
 
     var settings = {
-      timeout: 12,
-      countdown: 6,
+      timeout: 90,
+      countdown: 30,
       title : 'Your session is about to expire!',
       endTitle: 'Your session has expired!',
       message : 'You will be logged out in {0} seconds.',
@@ -180,7 +180,7 @@
                             '</span>' +
                           'Password:' +
                         '</label>' +
-                      '<input type="password" autocomplete="off" name="password" id="password" size="50" class="required" required/>' +                        
+                      '<input type="password" autocomplete="off" name="password" id="password" size="50" class="required" required value="" />' +                        
                     '</div>' +                 
                 '</fieldset></form>' +
                 '</div>' +
