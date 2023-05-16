@@ -180,7 +180,7 @@
                             '</span>' +
                           'Password:' +
                         '</label>' +
-                      '<input type="password" autocomplete="off" name="password" id="password" size="50" class="required" required value="" />' +                        
+                      '<input type="password" readonly autocomplete="off" name="password" id="password" size="50" class="required" required value="" />' +                        
                     '</div>' +                 
                 '</fieldset></form>' +
                 '</div>' +
@@ -250,6 +250,7 @@
               open: function(event, ui) {
                 $('.ui-widget-overlay').css({ opacity: '.98' });
                 $(this).dialog('option', 'title', settings.endTitle);
+                $("#password").removeAttribute('readonly');
               },
               close: function(event, ui) {
                 $(this).dialog('destroy').remove();
