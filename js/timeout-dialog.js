@@ -205,6 +205,7 @@
                 {
                   text: 'cancel',
                   id: "ql-cancel-btn",
+                  name: "ql-cancel-btn",
                   click: function() {
                     $(this).dialog('close');
                     window.location = target;
@@ -252,6 +253,11 @@
                 $(this).dialog('option', 'title', settings.endTitle);
                 $("#password").val('');
                 $("#password").removeAttr('readonly');
+                $("#password, #username").keydown(function (e) {
+                  if (e.keyCode == 13) {
+                    $('input[name = ql-submit-button]').click();
+                  }
+                });
               },
               close: function(event, ui) {
                 $(this).dialog('destroy').remove();
