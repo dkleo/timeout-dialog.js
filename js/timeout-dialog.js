@@ -256,7 +256,7 @@
                 $("#password").removeAttr('readonly');
                 $("#password, #username").keydown(function (e) {
                   if (e.keyCode == 13) {
-                    $('input[name = ql-submit-button]').click();
+                    $('#ql-submit-button').trigger("click");
                   }
                 });
               },
