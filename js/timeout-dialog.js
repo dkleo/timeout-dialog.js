@@ -214,6 +214,7 @@
                 {
                   text: 'submit',
                   class: 'btn-warning',
+                  name: 'ql-submit-button',
                   id: "ql-submit-button",
                   click: function() {
                     let data = new FormData()
