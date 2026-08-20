@@ -112,3 +112,12 @@ button {
 #timeout-countdown {
   font-weight: bold;
 }
+
+/* Optional host countdown (legacy P&T #nav_timer). Hidden until the plugin writes HH:MM:SS. */
+#nav_timer {
+  color: orange;
+  font-weight: bold;
+}
+#nav_timer.is-warning {
+  color: #c0392b;
+}

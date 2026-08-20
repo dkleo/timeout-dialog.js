@@ -1,0 +1,27 @@
+{
+  "name": "timeout-dialog",
+  "version": "0.2.0",
+  "homepage": "https://github.com/dkleo/timeout-dialog.js",
+  "authors": [
+    "Derek Lords <lords@ohsu.edu>"
+  ],
+  "description": "jQuery plugin that displays a session timeout dialog and optional header countdown timer.",
+  "main": [
+    "js/timeout-dialog.js",
+    "css/timeout-dialog.css"
+  ],
+  "keywords": [
+    "timeout",
+    "session",
+    "dialog",
+    "jquery"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

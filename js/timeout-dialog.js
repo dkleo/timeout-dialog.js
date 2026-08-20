@@ -1,24 +1,32 @@
 
 /*
- * timeout-dialog.js v0.0.9
+ * timeout-dialog.js v0.2.0
  *
  * @author: Derek Lords (@dkleo)
- * 
+ *
  * 1.  added settings.overlay_name and settings.dialog_class, title hidden by default.
  * 2.  added settings.idle_redirect, if true, will redirect to logout_url on timeout (after no response from countdown).
-  */
+ * 3.  optional header countdown (#nav_timer by default) stays in sync with timeout / keep-alive.
+ */
 
-
-
-
-
+/* String formatting used by message templates. Skip if the host already defined it.
+ * Example: 'Hello {0}'.format('World');
+ */
+if (typeof String.prototype.format !== 'function') {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/\{(\d+)\}/g, function(match, number) {
+      return typeof args[number] !== 'undefined' ? args[number] : match;
+    });
+  };
+}
 
 !function($) {
   $.timeoutDialog = function(options) {
 
     var settings = {
-      timeout: 90,
-      countdown: 30,
+      timeout: 7200,
+      countdown: 900,
       title : 'Your session is about to expire!',
       endTitle: 'Your session has expired!',
       message : 'You will be logged out in {0} seconds.',
@@ -34,19 +42,81 @@
       restart_on_yes: true,
       dialog_width: 350,
       overlay_name:'overlay',
-      dialog_class:'timeout-dialog'
+      dialog_class:'timeout-dialog',
+      timer_el: '#nav_timer',
+      timer_warning_class: 'is-warning'
     }
 
     $.extend(settings, options);
 
     var TimeoutDialog = {
       init: function () {
+        this.startNavTimer();
         this.setupDialogTimer();
+      },
+
+      formatClock: function(totalSeconds) {
+        var diff = Math.max(0, totalSeconds | 0);
+        var hours = (diff / 3600) | 0;
+        var minutes = ((diff % 3600) / 60) | 0;
+        var seconds = (diff % 60) | 0;
+        hours = hours < 10 ? '0' + hours : String(hours);
+        minutes = minutes < 10 ? '0' + minutes : String(minutes);
+        seconds = seconds < 10 ? '0' + seconds : String(seconds);
+        return hours + ':' + minutes + ':' + seconds;
+      },
+
+      navTimerEl: function() {
+        if (!settings.timer_el) {
+          return null;
+        }
+        return document.querySelector(settings.timer_el);
+      },
+
+      tickNavTimer: function() {
+        var display = this.navTimerEl();
+        if (!display) {
+          return;
+        }
+        var elapsed = ((Date.now() - this.navTimerStartedAt) / 1000) | 0;
+        var remaining = this.navTimerDuration - elapsed;
+        display.textContent = this.formatClock(remaining);
+        if (settings.timer_warning_class) {
+          if (remaining <= settings.countdown) {
+            $(display).addClass(settings.timer_warning_class);
+          } else {
+            $(display).removeClass(settings.timer_warning_class);
+          }
+        }
+      },
+
+      startNavTimer: function() {
+        var self = this;
+        var display = this.navTimerEl();
+        if (!display) {
+          return;
+        }
+        this.stopNavTimer();
+        this.navTimerDuration = Math.max(0, parseInt(settings.timeout, 10) || 0);
+        this.navTimerStartedAt = Date.now();
+        this.tickNavTimer();
+        this.navTimerInterval = window.setInterval(function() {
+          self.tickNavTimer();
+        }, 1000);
+      },
+
+      stopNavTimer: function() {
+        if (this.navTimerInterval) {
+          window.clearInterval(this.navTimerInterval);
+          this.navTimerInterval = null;
+        }
       },
 
       setupDialogTimer: function() {
         var self = this;
-        //assign const to interval, so we can clear it later with clearTimeout
+        if (this.timeout) {
+          window.clearTimeout(this.timeout);
+        }
         this.timeout = window.setTimeout(function() {
            self.setupDialog();
           }, (settings.timeout - settings.countdown) * 1000);
@@ -63,13 +133,13 @@
         .dialog({
           options: {
               headerVisible: true
-          },          
+          },
           modal: true,
           width: settings.dialog_width,
           minHeight: 'auto',
           position : {
-              my : 'center top', at : 'center bottom', of : $('#header')
-          },                    
+            my : 'center top', at : 'center top+10', of : window
+          },
           zIndex: 10000,
           closeOnEscape: false,
           draggable: false,
@@ -129,6 +199,7 @@
           if ($.trim(data) === "OK") {
             if (settings.restart_on_yes) {
                 $("#{0}".format(settings.overlay_name)).hide();
+                self.startNavTimer();
                 self.setupDialogTimer();
             }
           }
@@ -140,10 +211,11 @@
 
       signOut: function(is_forced) {
         var self = this;
+        this.stopNavTimer();
         this.destroyDialog();
 
         if (settings.logout_url != null) {
-            
+
             $.post(settings.logout_url, {timeout : "t"}, function(data){
                 self.redirectLogout(is_forced);
             });
@@ -163,7 +235,7 @@
             $('<div id="timeout-login-dialog">' +
                 '<p id="timeout-message" class="bs-callout bs-callout-info">Please enter your username and password to login.</p>' +
                 '<div class="formwrap">' +
-                '<form id="quickLogin"><fieldset>' + 
+                '<form id="quickLogin"><fieldset>' +
                   '<div>' +
                     '<label for="username">' +
                         '<span class="required">' +
@@ -180,21 +252,21 @@
                             '</span>' +
                           'Password:' +
                         '</label>' +
-                      '<input type="password" readonly autocomplete="off" name="password" id="password" size="50" class="required" required value="" />' +                        
-                    '</div>' +                 
+                      '<input type="password" readonly autocomplete="off" name="password" id="password" size="50" class="required" required value="" />' +
+                    '</div>' +
                 '</fieldset></form>' +
                 '</div>' +
               '</div>')
             .dialog({
               options: {
                   headerVisible: true
-              },          
+              },
               modal: true,
               width: 'auto',
               minHeight: 'auto',
               position : {
                   my : 'center top', at : 'center bottom', of : $('#header')
-              },                    
+              },
               zIndex: 10001,
               closeOnEscape: false,
               draggable: false,
@@ -247,7 +319,7 @@
                     });
 
                    }
-                  }                
+                  }
               ],
               open: function(event, ui) {
                 $('.ui-widget-overlay').css({ opacity: '.98' });
@@ -263,7 +335,7 @@
               close: function(event, ui) {
                 $(this).dialog('destroy').remove();
               }
-            }); 
+            });
         }
       }
     };

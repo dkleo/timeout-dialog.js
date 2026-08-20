@@ -68,14 +68,14 @@ Example:
       <tr>
         <td><strong>timeout</strong></td>
         <td>number</td>
-        <td>1200</td>
-        <td>The number of your session timeout (in seconds). The timeout value minus the countdown value determines how long until the dialog appears.</td>
+        <td>7200</td>
+        <td>The number of your session timeout (in seconds). Default is 2 hours. The timeout value minus the countdown value determines how long until the dialog appears.</td>
       </tr>
       <tr>
         <td><strong>countdown</strong></td>
         <td>number</td>
-        <td>60</td>
-        <td>The countdown total value (in seconds).</td>
+        <td>900</td>
+        <td>The countdown total value (in seconds). Default is 15 minutes. Also used as the warning threshold for <code>timer_el</code>.</td>
       </tr>
       <tr>
         <td><strong>title</strong></td>
@@ -136,6 +136,18 @@ Example:
         <td>number</td>
         <td>350</td>
         <td>The width of the dialog box.</td>
+      </tr>
+      <tr>
+        <td><strong>timer_el</strong></td>
+        <td>string / null</td>
+        <td>'#nav_timer'</td>
+        <td>Selector for an optional session countdown clock. When the element exists, the plugin writes <code>HH:MM:SS</code> remaining and restarts it after a successful keep-alive. Set to <code>null</code> to disable.</td>
+      </tr>
+      <tr>
+        <td><strong>timer_warning_class</strong></td>
+        <td>string</td>
+        <td>'is-warning'</td>
+        <td>Class added to <code>timer_el</code> once remaining time is within the warn countdown.</td>
       </tr>
     </tbody>
   </table>
